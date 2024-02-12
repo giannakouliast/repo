@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Index</title>
+</head>
+<body>
+
+<h1>Εγγραφή Δωρητή</h1>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Subscription</title>
+</head>
+<body>
+	<div class="container mt-5">
+	    <h2 class="mb-4">Donors List</h2>
+	    <div class="text-right mb-3">
+	        <a href="/showNewDonorForm" class="btn btn-primary">Register New Donor</a>
+	    </div>
+	    <table class="table table-bordered">
+	        <thead class="thead-dark">
+	            <tr>
+	                <th scope="col">#</th>
+	                <th scope="col">First Name</th>
+	                <th scope="col">Last Name</th>
+	                <th scope="col">Email</th>
+	                <th scope="col">Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="donor, iterStat : ${listDonors}">
+	                <th scope="row" th:text="${iterStat.count}">1</th>
+	                <td th:text="${donor.firstName}">John</td>
+	                <td th:text="${donor.lastName}">Doe</td>
+	                <td th:text="${donor.email}">john.doe@example.com</td>
+	                <td>
+	                    <a th:href="@{/form/{id}(id=${donor.id})}" class="btn btn-info btn-sm">View</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <h2>Δημιουργία λογαριασμού</h2>
+    <form id="registryForm" onsubmit="register(event)">
+        <div>
+            <label for="ssn">ΑΜΚΑ:</label>
+            <input type="text" id="ssn" name="ssn">
+        </div>
+        <div>
+            <label for="password">Κωδικός:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div>
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <!-- Add more subscription fields as needed -->
+        <button type="submit">Υποβολή</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a></p>
+    <script>
+        function register(event) {
+            event.preventDefault(); // Prevent form submission
+            var ssn = document.getElementById('ssn').value;
+            var password = document.getElementById('password').value;
+
+            var formData = {
+                ssn: ssn,
+                password: password
+            };
+
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                window.location.href = '/login'; // Redirect to login page after successful subscription
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

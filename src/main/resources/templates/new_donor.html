@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Index</title>
+</head>
+<body>
+
+<h1>Εγγραφή Δωρητή</h1>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Subscription</title>
+</head>
+<body>
+    <h2>Δημιουργία λογαριασμού</h2>
+<!--     <form id="registryForm" onsubmit="register(event)"> -->
+    <form action="#" th:action="@{/saveDonor}" th:object="${donor}" method="post">
+    	<div>
+	        <label for="firstName">Όνομα:</label>        
+            <input type="text" th:field="*{firstName}" placeholder="Όνομα">
+       	</div>
+            <label for="lastName">Επώνυμο:</label>        
+    		<input type="text" th:field="*{lastName}" placeholder="Επώνυμο">
+        <div>
+            <label for="ssn">ΑΜΚΑ:</label>
+            <input type="text" id="ssn" name="ssn" placeholder="π.χ. 01019900123">
+        </div>
+        <div>
+            <label for="password">Κωδικός:</label>
+            <input type="password" id="password" name="Κωδικός">
+        </div>
+        <div>
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email">
+        </div>
+        <!-- Add more subscription fields as needed -->
+        <button type="submit">Υποβολή</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a></p>
+</body>
+</html>

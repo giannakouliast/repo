@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <!-- Display login error message -->
+    <p id="loginError" class="error" style="color: red;"></p>
+    <form id="loginForm" onsubmit="login(event)">
+        <div>
+            <label for="ssn">SSN:</label>
+            <input type="text" id="ssn" name="ssn">
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Register here</a></p>
+    <script>
+        function login(event) {
+            event.preventDefault(); // Prevent form submission
+            var ssn = document.getElementById('ssn').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            var formData = {
+                ssn: ssn,
+                email: email,
+                password: password
+            };
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Invalid SSN or password');
+                }
+                return response.text();
+            })
+            .then(user_id => {
+                window.location.href = '/index/' + user_id; // Redirect to home page with username query parameter
+            })
+            .catch(error => {
+                document.getElementById('loginError').innerText = error.message;
+            });
+        }
+    </script>
+</body>
+</html>
